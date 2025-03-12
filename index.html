@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+    />
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #227575;
+        color: white;
+        margin: 0;
+        padding: 0;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .dark-mode {
+        background-color: white;
+        color: black;
+      }
+
+      .top-bar {
+        margin-left: 5%;
+        width: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #333;
+        padding: 10px 20px;
+        border-radius: 10px;
+        transition: background 0.3s;
+        height: 50px;
+        margin-top: 20px;
+      }
+
+      .dark-mode .top-bar {
+        background: #ddd;
+      }
+
+      /* .switch {
+        position: relative;
+        display: inline-block;
+        width: 34px;
+        height: 20px;
+      }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      } */
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 20px;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 12px;
+        width: 14px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+      input:checked + .slider {
+        background-color: #4caf50;
+      }
+      input:checked + .slider:before {
+        transform: translateX(14px);
+      }
+      .search-container {
+        display: flex;
+        align-items: center;
+        /* background: #222; */
+        padding: 5px;
+        width: 29%;
+        border-radius: 5px;
+        transition: background 0.3s;
+      }
+      .dark-mode .search-container {
+        /* background: #ccc; */
+      }
+      .search-container input {
+        border: none;
+        outline: none;
+        padding: 5px;
+        background: transparent;
+        color: white;
+        transition: color 0.3s;
+      }
+      .dark-mode .search-container input {
+        color: black;
+      }
+      .search-container button {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: white;
+        transition: color 0.3s;
+      }
+      .dark-mode .search-container button {
+        color: black;
+      }
+      #locationBtn {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top-bar">
+      <label
+        class="switch"
+        style="
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 5px;
+          cursor: pointer;
+        "
+      >
+        <input
+          type="checkbox"
+          id="darkModeToggle"
+          style="opacity: 0; width: 0; height: 0"
+        />
+        <span
+          class="slider round"
+          style="
+            width: 44px;
+            height: 19px;
+            background-color: #ccc;
+            border-radius: 20px;
+            position: relative;
+            display: inline-block;
+          "
+        ></span>
+        <span
+          class="dark-mode-text"
+          style="
+            font-size: 14px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+          "
+          >Dark Mode</span
+        >
+      </label>
+
+      <div
+        class="search-container"
+        style="
+          position: relative;
+          display: flex;
+          align-items: center;
+          width: 60%;
+        "
+      >
+        <input
+          type="text"
+          id="search"
+          placeholder="Search for your preferred city..."
+          style="
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border-radius: 20px;
+            border: 1px solid #ccc;
+            outline: none;
+            font-size: 14px;
+          "
+        />
+        <i
+          class="bi bi-search"
+          style="
+            position: absolute;
+            right: 30px;
+            color: #888;
+            font-size: 16px;
+            cursor: pointer;
+          "
+        ></i>
+      </div>
+      <button id="locationBtn">📍 Current Location</button>
+    </div>
+
+    <div class="main-container">
+      <!-- Left Panel (Time & Date) -->
+      <div class="left-panel">
+        <h2 id="cityName">Athens</h2>
+        <div class="time-container mt-5">
+          <h1 id="time">--:--</h1>
+          <p id="date">Loading date...</p>
+        </div>
+      </div>
+
+      <!-- Right Panel Container -->
+      <div class="weather-card">
+        <div class="weather-left">
+          <h1 id="temperature">24°C</h1>
+          <p class="feels-like">Feels like: <span id="feelsLike">22°C</span></p>
+          <div class="sun-info">
+            <p>
+              <img
+                class="img"
+                src="./Images (2)/new images/sunrise-white-1-113.png"
+                alt="Cloudy"
+              />
+              Sunrise <span id="sunrise">6:07 AM</span>
+            </p>
+            <p>
+              <img
+                class="img"
+                src="./Images (2)/new images/sunrise-white-1-113.png"
+                alt="Cloudy"
+              />
+
+              Sunset <span id="sunset">7:22 PM</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="weather-center">
+          <img
+            id="weatherIcon"
+            src="./Images (2)/new images/clear-1-98.png"
+            alt="Sunny"
+          />
+          <p class="weatherCondition fw-bold">Sunny</p>
+        </div>
+
+        <div class="weather-right">
+          <div class="weather-detail">
+            <img src="./Images (2)/Humidity.png" alt="" />
+          </div>
+          <div class="weather-detail">
+            <img src="./Images (2)/Wind speed.png" alt="" />
+          </div>
+          <div class="weather-detail">
+            <img src="./Images (2)/Pressure.png" alt="" />
+          </div>
+          <div class="weather-detail">
+            <img src="./Images (2)/UV.png" alt="" />
+          </div>
+        </div>
+      </div>
+
+      <div class="forecast-container">
+        <h2>5 Days Forecast:</h2>
+        <div class="forecast">
+          <div class="forecast-item">
+            <img src="./Images (2)/clouds 1.png" alt="Cloudy" />
+            <p>20°C</p>
+            <span>Friday, 1 Sep</span>
+          </div>
+          <div class="forecast-item">
+            <img src="./Images (2)/mist 1.png" alt="Partly Sunny" />
+            <p>22°C</p>
+            <span>Saturday, 2 Sep</span>
+          </div>
+          <div class="forecast-item">
+            <img src="./Images (2)/new images/clear-1-98.png" alt="Sunny" />
+            <p>27°C</p>
+            <span>Sunday, 3 Sep</span>
+          </div>
+          <div class="forecast-item">
+            <img src="./Images (2)/new images/drizzle-1-59.png" alt="Cloudy" />
+            <p>18°C</p>
+            <span>Monday, 4 Sep</span>
+          </div>
+          <div class="forecast-item">
+            <img src="./Images (2)/new images/rain-1-55.png" alt="Rainy" />
+            <p>16°C</p>
+            <span>Tuesday, 5 Sep</span>
+          </div>
+        </div>
+      </div>
+      <div class="hourly-forecast-container">
+        <h2>Hourly Forecast:</h2>
+        <div class="hourly-forecast">
+          <div class="hour-item">
+            <p>12:00</p>
+            <img src="./Images (2)/new images/clear-1-98.png" alt="Sunny" />
+            <p>26°C</p>
+            <img src="./Images (2)/navigation 1.png" alt="Wind" />
+            <p>3 km/h</p>
+          </div>
+          <div class="hour-item">
+            <p>15:00</p>
+            <img src="./Images (2)/new images/clear-1-98.png" alt="Sunny" />
+            <p>27°C</p>
+            <img src="./Images (2)/navigation 2.png" alt="Wind" />
+            <p>2 km/h</p>
+          </div>
+          <div class="hour-item">
+            <p>18:00</p>
+            <img src="./Images (2)/clouds 1.png" alt="Cloudy" />
+            <p>27°C</p>
+            <img src="./Images (2)/navigation 1.png" alt="Wind" />
+            <p>2 km/h</p>
+          </div>
+          <div class="hour-item">
+            <p>21:00</p>
+            <img src="./Images (2)/clouds 1.png" alt="Partly Sunny" />
+            <p>25°C</p>
+            <img src="./Images (2)/navigation 3.png" alt="Wind" />
+            <p>3 km/h</p>
+          </div>
+          <div class="hour-item">
+            <p>00:00</p>
+            <img src="./Images (2)/new images/clear-1-98.png" alt="Sunny" />
+            <p>22°C</p>
+            <img src="./Images (2)/navigation 1.png" alt="Wind" />
+            <p>3 km/h</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const body = document.body;
+
+      darkModeToggle.addEventListener("change", function () {
+        body.classList.toggle("dark-mode");
+        localStorage.setItem("darkMode", body.classList.contains("dark-mode"));
+      });
+
+      // Load user preference
+      if (localStorage.getItem("darkMode") === "true") {
+        body.classList.add("dark-mode");
+        darkModeToggle.checked = true;
+      }
+
+      document
+        .getElementById("locationBtn")
+        .addEventListener("click", function () {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              function (position) {
+                alert(
+                  "Latitude: " +
+                    position.coords.latitude +
+                    "\nLongitude: " +
+                    position.coords.longitude
+                );
+              },
+              function (error) {
+                alert("Error fetching location.");
+              }
+            );
+          } else {
+            alert("Geolocation is not supported by this browser.");
+          }
+        });
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
