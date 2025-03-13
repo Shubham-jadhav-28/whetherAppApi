@@ -20,7 +20,9 @@
     <style>
       body {
         font-family: Arial, sans-serif;
-        background-color: #227575;
+        background-color: black;
+        background-image: linear-gradient(72deg, #d9afd9 0%, #1e1e1e 100%);
+
         color: white;
         margin: 0;
         padding: 0;
@@ -38,7 +40,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: #333;
+        /* background: #333; */
         padding: 10px 20px;
         border-radius: 10px;
         transition: background 0.3s;
@@ -47,20 +49,20 @@
       }
 
       .dark-mode .top-bar {
-        background: #ddd;
+        /* background: #ddd; */
       }
 
       /* .switch {
-        position: relative;
-        display: inline-block;
-        width: 34px;
-        height: 20px;
-      }
-      .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-      } */
+              position: relative;
+              display: inline-block;
+              width: 34px;
+              height: 20px;
+            }
+            .switch input {
+              opacity: 0;
+              width: 0;
+              height: 0;
+            } */
       .slider {
         position: absolute;
         cursor: pointer;
@@ -110,7 +112,7 @@
         transition: color 0.3s;
       }
       .dark-mode .search-container input {
-        color: black;
+        /* color: black; */
       }
       .search-container button {
         background: transparent;
@@ -126,8 +128,8 @@
         background: #4caf50;
         color: white;
         border: none;
-        padding: 5px 10px;
-        border-radius: 5px;
+        padding: 3px 10px;
+        border-radius: 20px;
         cursor: pointer;
       }
     </style>
@@ -173,74 +175,56 @@
         >
       </label>
 
-      <div
-        class="search-container"
-        style="
-          position: relative;
-          display: flex;
-          align-items: center;
-          width: 60%;
-        "
-      >
+      <div class="input-group my-3 w-75 mx-auto">
         <input
           type="text"
-          id="search"
-          placeholder="Search for your preferred city..."
-          style="
-            width: 100%;
-            padding: 10px 40px 10px 15px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
-            outline: none;
-            font-size: 14px;
-          "
+          id="cityInput"
+          class="form-control rounded-pill"
+          placeholder="Enter city name"
         />
-        <i
-          class="bi bi-search"
-          style="
-            position: absolute;
-            right: 30px;
-            color: #888;
-            font-size: 16px;
-            cursor: pointer;
-          "
-        ></i>
+        <button id="searchButton" class="btn btn-success rounded-pill ms-2">
+          Search
+        </button>
       </div>
-      <button id="locationBtn">📍 Current Location</button>
+
+      <button id="locationBtn">
+        <img src="./Images (2)/current location icon.png" alt="" />
+        Current Location
+      </button>
     </div>
 
-    <div class="main-container">
+    <div class="main-container shadow">
       <!-- Left Panel (Time & Date) -->
       <div class="left-panel">
         <h2 id="cityName">Athens</h2>
         <div class="time-container mt-5">
-          <h1 id="time">--:--</h1>
+          <h1 id="time" style="font-size: 86px">--:--</h1>
           <p id="date">Loading date...</p>
         </div>
       </div>
 
       <!-- Right Panel Container -->
-      <div class="weather-card">
+      <div class="weather-card shadow">
         <div class="weather-left">
-          <h1 id="temperature">24°C</h1>
+          <h1 id="temperature">--°C</h1>
           <p class="feels-like">Feels like: <span id="feelsLike">22°C</span></p>
           <div class="sun-info">
             <p>
               <img
                 class="img"
-                src="./Images (2)/new images/sunrise-white-1-113.png"
+                src="./Images (2)/new images/sunrise-white 1.png"
                 alt="Cloudy"
               />
-              Sunrise <span id="sunrise">6:07 AM</span>
+              Sunrise <span id="sunrise">--:--</span>
             </p>
             <p>
               <img
                 class="img"
-                src="./Images (2)/new images/sunrise-white-1-113.png"
+                src="./Images (2)/new images/sunrise-white 1.png"
                 alt="Cloudy"
               />
 
-              Sunset <span id="sunset">7:22 PM</span>
+              Sunset <span id="sunset">--:--</span>
             </p>
           </div>
         </div>
@@ -256,21 +240,25 @@
 
         <div class="weather-right">
           <div class="weather-detail">
-            <img src="./Images (2)/Humidity.png" alt="" />
+            <img src="./Images (2)/new images/humidity- 1.png" alt="" />
+            <p id="humidity">Humidity: --%</p>
           </div>
           <div class="weather-detail">
-            <img src="./Images (2)/Wind speed.png" alt="" />
+            <img src="./Images (2)/new images/wind- 1.png" alt="" />
+            <p id="windSpeed">Wind Speed: -- m/s</p>
           </div>
           <div class="weather-detail">
-            <img src="./Images (2)/Pressure.png" alt="" />
+            <img src="./Images (2)/new images/pressure-white- 1.png" alt="" />
+            <p id="pressure">Pressure: -- hPa</p>
           </div>
           <div class="weather-detail">
-            <img src="./Images (2)/UV.png" alt="" />
+            <img src="./Images (2)/new images/uv-white -1.png" alt="" />
+            <p id="uvIndex">UV Index: --</p>
           </div>
         </div>
       </div>
 
-      <div class="forecast-container">
+      <div id="forecast" class="forecast-container">
         <h2>5 Days Forecast:</h2>
         <div class="forecast">
           <div class="forecast-item">
@@ -300,7 +288,7 @@
           </div>
         </div>
       </div>
-      <div class="hourly-forecast-container">
+      <div id="hourlyForecast" class="hourly-forecast-container">
         <h2>Hourly Forecast:</h2>
         <div class="hourly-forecast">
           <div class="hour-item">
