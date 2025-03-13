@@ -93,13 +93,25 @@ document.addEventListener("DOMContentLoaded", function () {
       updateHourlyForecast(weatherData);
       updateLocalTime();
 
+      // Update Weather Icon and Condition
       const weatherIconElement = document.getElementById("weatherIcon");
       const weatherConditionElement =
         document.querySelector(".weatherCondition");
+
       if (weatherIconElement && weatherConditionElement) {
         const currentWeather = weatherData.list[0];
+        const weatherDescription =
+          currentWeather.weather[0].description.toLowerCase();
         const iconCode = currentWeather.weather[0].icon;
-        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        let iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+
+        // ✅ Use the red sun icon when the weather is "Clear"
+        if (weatherDescription.includes("clear")) {
+          iconUrl = `./Images (2)/new images/clear-1-98.png?time=${new Date().getTime()}`;
+        }
+
+        console.log("Weather icon URL:", iconUrl); // Debugging log
+
         weatherIconElement.src = iconUrl;
         weatherConditionElement.textContent =
           currentWeather.weather[0].description;
@@ -238,10 +250,6 @@ document.addEventListener("DOMContentLoaded", function () {
       hourlyForecastContainer.appendChild(hourItem);
     });
   }
-
-  // Ensure this function is called inside fetchWeather(lat, lon)
-  // Example:
-  // updateHourlyForecast(weatherData);
 
   if (searchButton) {
     searchButton.addEventListener("click", () => {

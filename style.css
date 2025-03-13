@@ -39,14 +39,15 @@
 .weather-left {
   text-align: left;
 }
-#weatherIcon {
-  margin-top: 2px;
-  height: 200px;
-  width: 200px;
-}
-#weatherCondition {
-  margin-top: 2px;
-}
+/* #weatherIcon {
+  background-color: red;
+  border-radius: 50%;
+  padding: 5px;
+} */
+/* .dark-mode.weatherCondition {
+  color: white;
+  transition: color 0.3s ease-in-out;
+} */
 .weather-left h1 {
   font-size: 4rem;
   margin: 0;
@@ -71,7 +72,7 @@
   color: beige;
 }
 .dark-mode .img {
-  filter: invert(1);
+  filter: none !important;
 }
 .sun-info {
   margin-top: 10px;
@@ -346,7 +347,6 @@
 }
 /* Responsive Adjustments */
 
-/* Ensure the search bar aligns properly on smaller screens */
 @media (max-width: 768px) {
   .input-group {
     width: 90% !important;
